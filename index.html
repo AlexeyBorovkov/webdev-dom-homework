@@ -15,7 +15,7 @@
     <ul class="comments" id="list">
       <!-- Список рендерится из JS -->
     </ul>
-    <div class="add-form">
+    <div class="add-form" id="form">
       <input type="text" class="add-form-name" placeholder="Введите ваше имя" id="name-input" />
       <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"
         id="text-input"></textarea>
@@ -219,6 +219,10 @@
     }
 
 
+    
+    document.getElementById('add-comment-status').textContent = "Добавление комментария ...";
+    document.getElementById('form').style.display = "none";
+
     fetch('https://wedev-api.sky.pro/api/v1/alexey-borovkov/comments', {
       method: 'POST',
       body: JSON.stringify({
@@ -230,18 +234,16 @@
         return response.json();
       })
       .then(() => {
-        getComments();
+        return getComments();
       })
       .catch(error => {
         console.error("Ошибка при добавлении комментария:", error);
       })
       .finally(() => {
         document.getElementById('add-comment-status').textContent = "";
-        document.querySelector('.add-form').classList.remove('hidden');
+        document.getElementById('form').style.display = '';
       }) 
 
-    document.getElementById('add-comment-status').textContent = "Добавление комментария ...";
-    document.querySelector('.add-form').classList.add('hidden'); 
     
 
    
