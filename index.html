@@ -41,11 +41,17 @@
 
   let users = [];
 
+
+
   const getComments = () => {
     return fetch('https://wedev-api.sky.pro/api/v1/alexey-borovkov/comments', {
       method: 'GET',
+      forceError: true,
     })
     .then((response) => {
+      if (response === 500) {
+        throw new Error('Сервер упал');
+      };
       return response.json();
     })
     .then((responseData) => {
@@ -63,7 +69,18 @@
       renderUsers();
       document.getElementById('loading-status').textContent = "";
     })
+    .catch((error) => {
+      if (error.message === 'Failed to fetch') {
+        alert('Кажется что-то пошло не так, попробуйте позже');
+      };
+      if (error.message === 'Сервер упал') {
+        alert('Сервер сломался, попробуйте позже')
+      };
+
+      console.warn(error);
+    })
   }
+
 
 
   const renderUsers = () => {
@@ -221,34 +238,52 @@
 
     
     document.getElementById('add-comment-status').textContent = "Добавление комментария ...";
-    document.getElementById('form').style.display = "none";
+    document.querySelector('.add-form').classList.add('hidden');
 
     fetch('https://wedev-api.sky.pro/api/v1/alexey-borovkov/comments', {
       method: 'POST',
       body: JSON.stringify({
         text: textInputElement.value.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
         name: nameInputElement.value.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
+        forceError: true,
       })
     })
       .then((response) => {
+        if (response.status === 500) {
+          throw new Error('Сервер упал');
+        };
+        if (response.status === 400) {
+          throw new Error("Короткие вводимые данные");
+        };
         return response.json();
       })
-      .then(() => {
-        return getComments();
+      .then((response) => {
+        getComments();
+        nameInputElement.value = "";
+        textInputElement.value = "";
+        renderUsers();
       })
-      .catch(error => {
-        console.error("Ошибка при добавлении комментария:", error);
+      .catch((error) => {
+        if (error.message === 'Failed to fetch') {
+          alert("Кажется что-то пошло не так, попробуйте позже");
+        };
+        if (error.message === "Сервер упал") {
+          alert('Сервер сломался, попробуйте позже');
+        };
+        if (error.message === "Короткие вводимые данные") {
+          alert('Имя и комментарий должны быть не короче 3х символов');
+        };
+        console.warn(error);
+        
       })
       .finally(() => {
         document.getElementById('add-comment-status').textContent = "";
-        document.getElementById('form').style.display = '';
-      }) 
+        document.querySelector('.add-form').classList.remove('hidden');
+      })
+     
 
-    
 
-   
-    nameInputElement.value = '';
-    textInputElement.value = '';
+
   });
       
 
