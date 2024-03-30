@@ -10,6 +10,9 @@ export const textInputElement = document.getElementById('text-input');
 export let users = [];
 
 
+
+
+
 const getComments = () => {
   return getTodos()
     .then((responseData) => {

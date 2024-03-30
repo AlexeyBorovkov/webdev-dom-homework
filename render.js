@@ -1,4 +1,4 @@
-import { textInputElement, nameInputElement, buttonElement, users }  from "../main.js";
+import { textInputElement, users }  from "../main.js";
 
 
 const listElement = document.getElementById('list');
@@ -28,17 +28,11 @@ export  const renderUsers = () => {
   listElement.innerHTML = usersHtml;
   answerComment();
   initLikeButtonListeners();
-  // updateValue();
+ 
   
 };
 
-// const updateValue = () => {
-//   if (nameInputElement.value !== '' && textInputElement.value !== '') {
-//     buttonElement.disabled = true;
-//   } else {
-//     buttonElement.disabled = false;
-//   }
-// }
+
 
 
 function initLikeButtonListeners() {
