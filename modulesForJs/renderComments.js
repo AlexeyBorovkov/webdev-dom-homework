@@ -60,7 +60,7 @@ export function renderComments({ comments, initLikeButtonListeners, reply, remov
 
   
 
-  appElement.innerHTML = appHtml;
+  appElement.innerHTML = commentsHtml + appHtml;
 
   if(!token) {
     
