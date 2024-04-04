@@ -39,6 +39,3 @@ initLikeButtonListeners({ comments }, { renderComments });
 
 // Ответ по клику на коммент 
 reply({ comments });
-
-
-

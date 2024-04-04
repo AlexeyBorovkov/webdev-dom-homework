@@ -15,4 +15,3 @@ export function removeValidation() {
         commentInputElement.classList.remove('error');
     });
 };
-

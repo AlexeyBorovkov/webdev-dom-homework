@@ -44,8 +44,3 @@ export const renderLogin = ({getComments}) => {
         passwordInputElement.value = '';
     });
 }
-
-
-
-
-

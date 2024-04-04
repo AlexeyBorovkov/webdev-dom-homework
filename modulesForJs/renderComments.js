@@ -31,7 +31,11 @@ export function renderComments({ comments, initLikeButtonListeners, reply, remov
 
   if(token) {
 
-    appHtml = `<div id="add-form" class="add-form">
+    appHtml = `
+    <ul id="list" class="comments">
+     ${commentsHtml}
+    </ul>
+    <div id="add-form" class="add-form">
     <input id="name-input" type="text" class="add-form-name" value=${name} disabled id="name-input" readonly/>
     <textarea id="comment-input" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
       rows="4"></textarea>
@@ -46,8 +50,8 @@ export function renderComments({ comments, initLikeButtonListeners, reply, remov
   } else {
 
     appHtml = `   
-    <div id="comments-block" class="comments-block">
-        <ul id="list" class="comments">
+  <div id="comments-block" class="comments-block">
+    <ul id="list" class="comments">
      ${commentsHtml}
     </ul>
     <span class="auth-link-span" id="load-comment">Чтобы добавить комментарий, 
@@ -57,10 +61,8 @@ export function renderComments({ comments, initLikeButtonListeners, reply, remov
 
   }
 
+  appElement.innerHTML = appHtml;
 
-  
-
-  appElement.innerHTML = commentsHtml + appHtml;
 
   if(!token) {
     
@@ -132,10 +134,3 @@ export function renderComments({ comments, initLikeButtonListeners, reply, remov
     removeValidation();
   };
 };
-
-
-
-
-
-
-

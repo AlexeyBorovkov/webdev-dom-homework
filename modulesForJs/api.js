@@ -1,6 +1,6 @@
 // Получениe комментов с сервера (часть кода)
 
-const host = 'https://wedev-api.sky.pro/api/v2/alexey-borovkov/comments';
+const host = 'https://wedev-api.sky.pro/api/v2/rustam-kholov/comments';
 const userUrl = 'https://wedev-api.sky.pro/api/user/login';
 
 export let token;
