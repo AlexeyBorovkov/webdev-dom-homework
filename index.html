@@ -9,26 +9,39 @@
 
 <body>
   <div class="container">
-    <div class="loading" id="loading-status">
-      Загрузка комментариев ...
-    </div>
-    <ul class="comments" id="list">
-      <!-- Список рендерится из JS -->
-    </ul>
-    <div class="add-form" id="form">
-      <input type="text" class="add-form-name" placeholder="Введите ваше имя" id="name-input" />
-      <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"
-        id="text-input"></textarea>
-      <div class="add-form-row">
-        <button class="add-form-button" id="add-button">Написать</button>
-        <button class="add-form-button" id="delete-button">Удалить комментарий</button>
-      </div>
-    </div>
-    <div class="add-comment" id="add-comment-status">
 
+    <div id="app">
+      <!-- Рендерится из JS -->
     </div>
+
   </div>
 </body>
 
-<script type="module" src="main.js"></script>
+<style>
+  @keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(30deg);;
+    }
+    75% {
+      transform: rotate(-30deg);;
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+  .error {
+    background-color: red;
+  }
+  .hide {
+    display: none;
+}
+.-loading-like {
+    animation: rotating 2s linear infinite;
+  }
+</style>
+<script type="module" src="main.js" defer></script>
+
 </html>

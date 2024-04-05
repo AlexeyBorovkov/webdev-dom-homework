@@ -1,83 +1,41 @@
 "use strict";
 
-import { getTodos, postComments } from "./api.js";
-import { renderUsers } from "./render.js";
-export const buttonElement = document.getElementById('add-button');
-export const nameInputElement = document.getElementById('name-input');
-export const textInputElement = document.getElementById('text-input');
+import { fetchAndRenderComments } from "./modulesForJs/api.js";
+import { delay } from "./modulesForJs/delay.js";
+import { initLikeButtonListeners } from "./modulesForJs/likeButton.js";
+import { removeValidation } from "./modulesForJs/removeValid.js";
+import { renderComments } from "./modulesForJs/renderComments.js";
+import { reply } from "./modulesForJs/reply.js";
 
+// Получениe комментов с сервера
+export function getComments() {
 
-export let users = [];
-
-
-
-
-
-const getComments = () => {
-  return getTodos()
-    .then((responseData) => {
-      const userComment = responseData.comments.map((comment) => {
-        return {
-          name: comment.author.name,
-          date: new Date(comment.date),
-          comment: comment.text,
-          likes: comment.likes,
-          isLiked: false,
-          id: comment.id,
-        };
-      });
-      users = userComment;
-      renderUsers();
-      document.getElementById('loading-status').textContent = "";
-    });   
-};
+  fetchAndRenderComments().then((responseData) => {
+    const appComments = responseData.comments.map((comment) => {
+      return {
+        name: comment.author.name,
+        date: new Date(comment.date).toLocaleDateString('ru-RU', { year: '2-digit', month: '2-digit', day: '2-digit' }) + ' ' + new Date(comment.date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        comment: comment.text,
+        likesCounter: comment.likes,
+        isLiked: comment.isLiked,
+      };
+    });
+    comments = appComments;
+    renderComments({ comments, initLikeButtonListeners, reply, removeValidation, delay });
+    // preLoadElement.classList.add('hide');
+  });
+}
 
 getComments();
+// renderLogin({ getComments });
 
 
 
+//  Массив для комментов 
+let comments = [];
 
-buttonElement.addEventListener('click', () => {
-  nameInputElement.classList.remove('error');
-  textInputElement.classList.remove('error');
-  if (nameInputElement.value.trim() !== '' && textInputElement.value.trim() === '') {
-    textInputElement.classList.add('error');
-    buttonElement.disabled = true;
-    return;
-  }
-  else if (nameInputElement.value.trim() === '' && textInputElement.value.trim() === '') {
-    nameInputElement.classList.add('error');
-    textInputElement.classList.add('error');
-    buttonElement.disabled = true;
-    return;
-  }
+// Кнопка для лайка 
+initLikeButtonListeners({ comments }, { renderComments });
 
-  if (textInputElement.value.trim() !== '' && nameInputElement.value.trim() === '') {
-    nameInputElement.classList.add('error');
-    buttonElement.disabled = true;
-    return;
-  }
-
-  
-  
-  document.getElementById('add-comment-status').textContent = "Добавление комментария ...";
-  document.querySelector('.add-form').classList.add('hidden');
-  
-  
- 
-    postComments({name: nameInputElement.value, text: textInputElement.value}).then(() => {
-      return getComments();
-    })
-    .then(() => {
-      nameInputElement.value = '';
-      textInputElement.value = '';
-    })
-    .finally(() => {
-      document.getElementById('add-comment-status').textContent = "";
-      document.querySelector('.add-form').classList.remove('hidden');
-    });
-
-  renderUsers();
-  
-
-});
+// Ответ по клику на коммент 
+reply({ comments });
