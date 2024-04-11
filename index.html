@@ -1,47 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект "Комменты"</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <title>Проект "Комменты"</title>
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-
-<body>
-  <div class="container">
-
-    <div id="app">
-      <!-- Рендерится из JS -->
+  <body>
+    <div id='preloader'>
+      <p class="preloader-text">Пожалуйста подождите, загружаю комментарии...</p>
     </div>
+    <div class="container">
+    </div>
+  </body>
 
-  </div>
-</body>
-
-<style>
-  @keyframes rotating {
-    from {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(30deg);;
-    }
-    75% {
-      transform: rotate(-30deg);;
-    }
-    to {
-      transform: rotate(0deg);
-    }
-  }
-  .error {
-    background-color: red;
-  }
-  .hide {
-    display: none;
-}
-.-loading-like {
-    animation: rotating 2s linear infinite;
-  }
-</style>
-<script src="dist/main.js" defer></script>
-
+  <script src="./dist/main.js"></script>
 </html>
